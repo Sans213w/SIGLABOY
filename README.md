@@ -40,7 +40,7 @@ local function createESP(player)
 	if not player.Character then return end
 	if espList[player] then return end
 
-	local esp = Instance.new("Highlight")
+local esp = Instance.new("Highlight")
 	esp.FillColor = Color3.fromRGB(255, 0, 0)
 	esp.OutlineColor = Color3.fromRGB(255, 255, 255)
 	esp.FillTransparency = 0.5
@@ -85,7 +85,7 @@ clickTPButton.MouseButton1Click:Connect(function()
 	clickTPEnabled = not clickTPEnabled
 	clickTPButton.Text = clickTPEnabled and "TP com Clique [ON]" or "TP com Clique"
 
-	if clickTPEnabled then
+if clickTPEnabled then
 		local mouse = game.Players.LocalPlayer:GetMouse()
 		mouse.Button1Down:Connect(function()
 			if not clickTPEnabled then return end
@@ -104,7 +104,7 @@ nearestTPButton.MouseButton1Click:Connect(function()
 	local myPos = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") and lp.Character.HumanoidRootPart.Position
 	if not myPos then return end
 
-	for _, p in pairs(game.Players:GetPlayers()) do
+for _, p in pairs(game.Players:GetPlayers()) do
 		if p ~= lp and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
 			local dist = (p.Character.HumanoidRootPart.Position - myPos).Magnitude
 			if dist < minDist then
@@ -114,7 +114,7 @@ nearestTPButton.MouseButton1Click:Connect(function()
 		end
 	end
 
-	if closest and closest.Character then
+if closest and closest.Character then
 		lp.Character:MoveTo(closest.Character.HumanoidRootPart.Position + Vector3.new(0, 3, 0))
 	end
 end)
@@ -125,13 +125,13 @@ aimbotButton.MouseButton1Click:Connect(function()
 	aimbotEnabled = not aimbotEnabled
 	aimbotButton.Text = aimbotEnabled and "Aimbot [ON]" or "Aimbot com ESP"
 
-	local player = game.Players.LocalPlayer
+local player = game.Players.LocalPlayer
 	local mouse = player:GetMouse()
 
-	game:GetService("RunService").RenderStepped:Connect(function()
+game:GetService("RunService").RenderStepped:Connect(function()
 		if not aimbotEnabled then return end
 
-		local closest, dist = nil, math.huge
+local closest, dist = nil, math.huge
 		for _, p in pairs(game.Players:GetPlayers()) do
 			if p ~= player and p.Character and p.Character:FindFirstChild("Head") then
 				local screenPos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(p.Character.Head.Position)
@@ -145,7 +145,7 @@ aimbotButton.MouseButton1Click:Connect(function()
 			end
 		end
 
-		if closest and closest.Character and closest.Character:FindFirstChild("Head") then
+if closest and closest.Character and closest.Character:FindFirstChild("Head") then
 			workspace.CurrentCamera.CFrame = CFrame.new(
 				workspace.CurrentCamera.CFrame.Position,
 				closest.Character.Head.Position
@@ -158,22 +158,21 @@ end)
 getGunButton.MouseButton1Click:Connect(function()
 	local player = game.Players.LocalPlayer
 	if player.Backpack:FindFirstChild("Blaster") then return end
-
-	local tool = Instance.new("Tool")
+local tool = Instance.new("Tool")
 	tool.RequiresHandle = false
 	tool.Name = "Blaster"
 
-	tool.Activated:Connect(function()
+tool.Activated:Connect(function()
 		local character = player.Character
 		if not character then return end
 
-		local hrp = character:FindFirstChild("HumanoidRootPart")
+local hrp = character:FindFirstChild("HumanoidRootPart")
 		local mouse = player:GetMouse()
 
-		if hrp and mouse then
+if hrp and mouse then
 			local direction = (mouse.Hit.Position - hrp.Position).Unit
 
-			local bullet = Instance.new("Part")
+local bullet = Instance.new("Part")
 			bullet.Shape = Enum.PartType.Ball
 			bullet.Size = Vector3.new(0.5, 0.5, 0.5)
 			bullet.BrickColor = BrickColor.new("Bright red")
@@ -184,7 +183,7 @@ getGunButton.MouseButton1Click:Connect(function()
 			bullet.Velocity = direction * 100
 			bullet.Parent = workspace
 
-			bullet.Touched:Connect(function(hit)
+bullet.Touched:Connect(function(hit)
 				local hum = hit.Parent and hit.Parent:FindFirstChildOfClass("Humanoid")
 				if hum and hit.Parent ~= character then
 					hum:TakeDamage(20)
@@ -192,9 +191,8 @@ getGunButton.MouseButton1Click:Connect(function()
 				end
 			end)
 
-			game.Debris:AddItem(bullet, 5)
+game.Debris:AddItem(bullet, 5)
 		end
 	end)
-
-	tool.Parent = player.Backpack
+tool.Parent = player.Backpack
 end)
